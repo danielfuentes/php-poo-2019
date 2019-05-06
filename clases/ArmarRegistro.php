@@ -4,7 +4,7 @@ class ArmarRegistro{
         $usuario = [
             "nombre"=>$registro->getNombre(),
             "email"=>$registro->getEmail(),
-            "password"=> password_hash($registro->getPassword(),PASSWORD_DEFAULT),
+            "password"=> Encriptar::hashPassword($registro->getPassword()),
             "perfil"=>1
         ];
     

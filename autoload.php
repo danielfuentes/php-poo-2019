@@ -5,6 +5,7 @@ require_once("clases/Validador.php");
 require_once("clases/ArmarRegistro.php");
 require_once("clases/BaseDatos.php");
 require_once("clases/BaseJSON.php");
+require_once("clases/Encriptar.php");
 
 $validar = new Validador();
 $registro = new ArmarRegistro();

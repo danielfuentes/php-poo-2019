@@ -1,5 +1,6 @@
 <?php
-include_once("controladores/funciones.php");
+//include_once("controladores/funciones.php");
+require_once("autoload.php");
 if($_POST){
   
   $errores= validar($_POST,"login");

@@ -126,16 +126,19 @@ function armarRegistroOlvide($datos){
     foreach ($usuarios as $key=>$usuario) {
         
         if($datos["email"]==$usuario["email"]){
-            //Esta línea se las comente para que a futuro puedan probar si la clave nueva la van a grabar coorectamente, la idea es verla antes de hashearla.
+            //Esta línea se las comente para que a futuro puedan probar si la clave nueva la van a grabar correctamente, la idea es verla antes de hashearla. le pueden aplicar un dd() y verificar que les trae
             //$usuario["password"]= $datos["password"];
             $usuario["password"]= password_hash($datos["password"],PASSWORD_DEFAULT);
+            //Aquí guardamos el registro del usuario, pero con el password hasheado
             $usuarios[$key] = $usuario;    
         }
+        //Si no es el usuario, entonces va de igual forma a guardar todo los usuarios
         $usuarios[$key] = $usuario;    
     }
     
     //Esto se los coloque para que sepan que con esta función podemos borrar un archivo
     unlink("usuarios.json");
+    //Aquí vuelvo a recorrer el array para poder guardar un registro bajo el otro, haciendo uso de la constante de php PHP_EOL
     foreach ($usuarios as  $usuario) {
         $jsusuario = json_encode($usuario);
         file_put_contents('usuarios.json',$jsusuario. PHP_EOL,FILE_APPEND);
