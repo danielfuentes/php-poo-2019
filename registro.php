@@ -1,38 +1,21 @@
 <?php
 require_once("autoload.php");
 if ($_POST){
-  $usuario = new Usuario($_POST["nombre"],$_POST["email"],$_POST["password"]);
-  
-  //$passwordEncriptado = password_hash($usuario->getPassword(),PASSWORD_DEFAULT);
-  //dd($passwordEncriptado);
+  $usuario = new Usuario($_POST["email"],$_POST["password"],$_POST["repassword"],$_POST["nombre"],$_FILES );
   $errores = $validar->validacionUsuario($usuario, $_POST["repassword"]);
   if(count($errores)==0){
-    $registroUsuario = $registro->armarUsuario($usuario);
-    $json->guardar($registroUsuario);
-    redirect ("login.php");
-    //gracias amogis queridos!
+    $usuarioEncontrado = $json->buscarEmail($usuario->getEmail());
+    if($usuarioEncontrado != null){
+      $errores["email"]="Usuario ya registrado";
+    }else{
+      $avatar = $registro->armarAvatar($_FILES);
+      $registroUsuario = $registro->armarUsuario($usuario,$avatar);
+      $json->guardar($registroUsuario);
+      redirect ("login.php");
+    }
   }
 }
 
-
-/*
-include_once("controladores/funciones.php");
-if ($_POST){
-  $errores=validar($_POST,"registro");
-  if(count($errores)==0){
-    $usuario = buscarEmail($_POST["email"]);
-    if($usuario !== null){
-      $errores["email"]="Usuario ya registrado";
-    }else{
-      $avatar = armarAvatar($_FILES);
-      $registro = armarRegistro($_POST,$avatar);
-      guardarUsuario($registro);
-      header("location:login.php");
-      exit;
-    }  
-
-  }
-}*/
 
 ?>
 <!DOCTYPE html>
@@ -80,6 +63,9 @@ if ($_POST){
             <label>Confirmar contraseña:</label>
             
             <input name="repassword" type="password" id="repassword" value="" placeholder="Rectifique su contraseña" />
+            <br>
+            <input  type="file" name="avatar" value=""/>
+            <br>
             <br>
             <button class="btn-buttom btn-primary" type="submit">Enviar</button>
             

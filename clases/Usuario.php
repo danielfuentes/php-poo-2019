@@ -3,10 +3,14 @@ class Usuario{
     private $nombre;
     private $email;
     private $password;
-    public function __construct($nombre,$email,$password){
+    private $repassword;
+    private $avatar;
+    public function __construct($email,$password,$repassword=null, $nombre=null,$avatar=null){
         $this->nombre = $nombre;
         $this->email = $email;
         $this->password = $password;
+        $this->repassword = $repassword;
+        $this->avatar = $avatar;
     }
     public function getNombre(){
         return $this->nombre;
@@ -25,6 +29,19 @@ class Usuario{
     }
     public function setPassword($password){
         $this->password = $password;
+    }
+    public function getRepassword(){
+        return $this->repassword;
+    }
+    public function setRepassword($password){
+        $this->repassword = $repassword;
+    }
+
+    public function getAvatar(){
+        return $this->avatar;
+    }
+    public function setAvatar($avatar){
+        $this->avatar = $avatar;
     }
     
 }

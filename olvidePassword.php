@@ -1,15 +1,15 @@
 <?php
-include_once("controladores/funciones.php");
+require_once("autoload.php");
 if($_POST){
-  $errores= validar($_POST,"olvide");
+  $usuario = new Usuario($_POST["email"],$_POST["password"],$_POST["repassword"] );
+  $errores= $validar->validacionOlvide($usuario);
   if(count($errores)==0){
-    $usuario = buscarEmail($_POST["email"]);
-    if($usuario == null){
-      $errores["email"]="Usuario no existe en nuestra base de datos";
+    $usuarioEncontrado = $json->buscarEmail($usuario->getEmail());
+    if($usuarioEncontrado == null){
+      $errores["email"]="El usuario no existe en nuestra base de datos";
     }else{
-        $registro = armarRegistroOlvide($_POST);
-          header("location: cambioContraseña.php");
-          exit;
+        $registro = $json->jsonRegistroOlvide($usuario->getEmail(),$usuario->getPassword());
+          redirect("cambioContraseña.php");
     }
   }
 }

@@ -1,8 +1,7 @@
 <?php
-include_once("controladores/funciones.php");
+require_once("autoload.php");
 if(!isset($_SESSION["email"])) {
-    header("location:registro.php");
-    exit;
+    redirect("registro.php");
 }
 ?>
 <html lang="es">
