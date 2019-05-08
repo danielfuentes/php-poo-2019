@@ -2,13 +2,14 @@
 require_once("autoload.php");
 if ($_POST){
   $usuario = new Usuario($_POST["email"],$_POST["password"],$_POST["repassword"],$_POST["nombre"],$_FILES );
+  
   $errores = $validar->validacionUsuario($usuario, $_POST["repassword"]);
   if(count($errores)==0){
     $usuarioEncontrado = $json->buscarEmail($usuario->getEmail());
     if($usuarioEncontrado != null){
       $errores["email"]="Usuario ya registrado";
     }else{
-      $avatar = $registro->armarAvatar($_FILES);
+      $avatar = $registro->armarAvatar($usuario->getAvatar());
       $registroUsuario = $registro->armarUsuario($usuario,$avatar);
       $json->guardar($registroUsuario);
       redirect ("login.php");
